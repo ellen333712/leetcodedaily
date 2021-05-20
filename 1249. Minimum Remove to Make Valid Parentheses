@@ -1,0 +1,36 @@
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        StringBuilder leftToRight = new StringBuilder();
+        StringBuilder rightToLeft = new StringBuilder();
+        
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                count++;
+            } else if (c == ')') {
+                count--;
+                if (count < 0) {
+                    count = 0;
+                    continue;
+                }
+            }
+            leftToRight.append(c);
+        }
+        
+        count = 0;
+        for (char c : leftToRight.reverse().toString().toCharArray()) {
+            if (c == ')') {
+                count++;
+            } else if (c == '(') {
+                count--;
+                if (count < 0) {
+                    count = 0;
+                    continue;
+                }
+            }
+            rightToLeft.append(c);
+        }
+        
+        return rightToLeft.reverse().toString();
+    }
+}
