@@ -1,0 +1,56 @@
+class Solution {
+    public List<String> removeInvalidParentheses(String s) {
+        int left = 0;
+        int right = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                left++;
+            } else if (c == ')') {
+                if (left >  0) {
+                    left--;
+                } else {
+                    right++;
+                }
+            }
+        }
+        
+        Set<String> res = new HashSet<>();
+        helper(s, 0, 0, 0, left, right, new StringBuilder(), res);
+        return new ArrayList<>(res);
+    }
+    
+    private void helper(String s, int index, int curLeft, int curRight,
+                        int leftRem, int rightRem, StringBuilder sb,
+                        Set<String> res) {
+        if (index == s.length()) {
+            if (leftRem == 0 && rightRem == 0) {
+                res.add(sb.toString());
+            }
+        } else {
+            char c = s.charAt(index);
+            //not adding c
+            if (c == '(' && leftRem > 0) {
+                helper(s, index+1, curLeft, curRight, leftRem - 1, rightRem, sb, res);
+            } else if (c == ')' && rightRem > 0) {
+                helper(s, index+1, curLeft, curRight, leftRem, rightRem - 1, sb, res);
+            }
+            
+            if (c != '(' && c != ')') {
+                sb.append(c);
+                helper(s, index+1, curLeft, curRight, leftRem, rightRem, sb, res);
+                sb.deleteCharAt(sb.length() - 1);   
+            } else if (c == '(') {
+                sb.append(c);
+                helper(s, index+1, curLeft+1, curRight, leftRem, rightRem, sb, res);
+                sb.deleteCharAt(sb.length() - 1);  
+            } else {
+                if (curLeft > curRight) {
+                    sb.append(c);
+                    helper(s, index+1, curLeft, curRight+1, leftRem, rightRem, sb, res);
+                    sb.deleteCharAt(sb.length() - 1);  
+                }
+            }
+         
+        }
+    }
+}
