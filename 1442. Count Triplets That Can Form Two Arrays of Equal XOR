@@ -1,0 +1,16 @@
+class Solution {
+    
+    public int countTriplets(int[] arr) {        
+        int res = 0;
+        for (int i = 0; i < arr.length; i++) {
+            int curXOR = arr[i];
+            for (int j = i + 1; j < arr.length; j++) {
+                curXOR ^= arr[j];
+                if (curXOR == 0) {
+                    res += j - i;
+                }
+            }
+        }
+        return res;
+    }
+}
