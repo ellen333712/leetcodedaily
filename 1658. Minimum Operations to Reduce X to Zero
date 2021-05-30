@@ -1,0 +1,31 @@
+class Solution {
+    public int minOperations(int[] nums, int x) {
+        int totalSum = 0;
+        for (int n : nums) {
+            totalSum += n;
+        }
+        
+        if (totalSum < x) {
+            return -1;
+        }
+        
+        int target = totalSum - x;
+        
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int max = Integer.MIN_VALUE;
+        totalSum = 0;
+        
+        for (int i = 0; i < nums.length; i++) {
+            totalSum += nums[i];
+            int extra = totalSum - target;
+            map.put(totalSum, i);
+
+            if (map.containsKey(extra)) {
+                max = Math.max(max, i - map.get(extra));
+            } 
+        }
+        
+        return max == Integer.MIN_VALUE ? -1 : nums.length - max;
+    }
+}
