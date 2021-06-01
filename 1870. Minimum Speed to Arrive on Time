@@ -1,0 +1,26 @@
+class Solution {
+    public int minSpeedOnTime(int[] dist, double hour) {
+        int min = 1, max = 10000000;
+        int res = -1;
+        
+        while (min <= max) {
+            int mid = (min + max)/2;
+            
+            double hours = 0;
+            for (int i = 0; i < dist.length - 1; i++) {
+                hours += Math.ceil((double) dist[i]/mid);
+            }
+            
+            hours += (double)dist[dist.length - 1]/mid;
+            
+            if (hours > hour) {
+                min = mid + 1;
+            } else {
+                res = mid;
+                max = mid - 1;
+            }
+        }
+        
+        return res;
+    }
+}
