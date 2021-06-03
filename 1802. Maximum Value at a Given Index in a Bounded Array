@@ -1,0 +1,45 @@
+class Solution {
+    public int maxValue(int n, int index, int maxSum) {
+        int min = 1, max = maxSum;
+        int ans = Integer.MIN_VALUE;
+        
+        while (min <= max) {
+            int mid = (min + max)/2;
+            if (isPossible(n, index, maxSum, mid)) {
+                ans = mid;
+                min = mid + 1;
+            } else {
+                max = mid - 1;
+            }
+        }
+        
+        return ans;
+    }
+    
+    private boolean isPossible(int n, int index, int maxSum, int maxVal) {
+        long sum = maxVal;
+        int left = index, right = n - index - 1;
+        long leftVal = 0, rightVal = 0;
+        
+        if (left < maxVal) {
+            leftVal = sum(maxVal - 1) - sum(maxVal - left - 1);
+        } else {
+            leftVal = sum(maxVal - 1) + left - maxVal + 1;
+        }
+        sum += leftVal;
+        
+        if (right < maxVal) {
+            rightVal = sum(maxVal - 1) - sum(maxVal - right - 1);
+        } else {
+            rightVal = sum(maxVal - 1) + right - maxVal + 1;
+        }
+
+        sum += rightVal;
+
+        return sum <= maxSum;
+    }
+    
+    private long sum (long val) {
+        return (val + 1) * val / 2;
+    } 
+}
