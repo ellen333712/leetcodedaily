@@ -1,0 +1,28 @@
+class Solution {
+    public int findBestValue(int[] arr, int target) {
+        Arrays.sort(arr);
+        int len = arr.length;
+        int cur = 0;
+        
+        while (cur < len) {
+            if (arr[cur] * (len - cur) < target) {
+                target -= arr[cur];
+                cur++;
+            } else {
+                break;
+            }
+        }
+        
+        if (cur == len) {
+            return arr[len-1];
+        }
+        
+        int res = target / (len - cur);
+        if (target - res * (len-cur) > (res + 1) * (len - cur) - target) {
+            return res+1;
+        }
+        
+        return res;
+        
+    }
+}
