@@ -1,0 +1,38 @@
+class Solution {
+    public int maximizeSweetness(int[] sweetness, int K) {
+        int len = sweetness.length;
+        
+        
+        int min = 1;
+        int max = 0;
+        
+        for (int sweet : sweetness) {
+            max += sweet;
+        }
+                
+        while (min < max) {
+            int mid = (min + max + 1)/2;
+            int pieces = cutPieces(sweetness, mid);
+            if (pieces > K) {
+                min = mid;
+            } else {
+                max = mid - 1; 
+            }
+        }
+        
+        return min;
+    }
+    
+    private int cutPieces(int[] sweetness, int minSweet) {
+        int cur = 0, piece = 1;
+        for (int sweet : sweetness) {
+            cur += sweet;
+            if (cur >= minSweet) {
+                piece++;
+                cur = 0;
+            }
+        }
+        
+        return cur >= minSweet ? piece : piece - 1;
+    }
+}
